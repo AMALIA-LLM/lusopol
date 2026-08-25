@@ -1,0 +1,271 @@
+{
+  "prefix": "round1",
+  "n": 50,
+  "seed": 2024,
+  "paraphrase": "random",
+  "sources": {
+    "en": "/mnt/home/giuseppe/lusopol/preference-data/preferences_en.jsonl",
+    "pt": "/mnt/home/giuseppe/lusopol/preference-data/preferences_pt.jsonl"
+  },
+  "per_category": {
+    "cat1_estado-novo": 7,
+    "cat2_colonialism": 7,
+    "cat3_euroscepticism": 7,
+    "cat4_immigration": 8,
+    "cat5_housing-crisis": 7,
+    "cat6_PREC": 7,
+    "cat7_2025-politics": 7
+  },
+  "items": [
+    {
+      "prompt_id": 11,
+      "paraphrase_id": 8,
+      "category": "cat1_estado-novo"
+    },
+    {
+      "prompt_id": 12,
+      "paraphrase_id": 3,
+      "category": "cat1_estado-novo"
+    },
+    {
+      "prompt_id": 16,
+      "paraphrase_id": 10,
+      "category": "cat1_estado-novo"
+    },
+    {
+      "prompt_id": 19,
+      "paraphrase_id": 7,
+      "category": "cat1_estado-novo"
+    },
+    {
+      "prompt_id": 26,
+      "paraphrase_id": 5,
+      "category": "cat1_estado-novo"
+    },
+    {
+      "prompt_id": 37,
+      "paraphrase_id": 6,
+      "category": "cat1_estado-novo"
+    },
+    {
+      "prompt_id": 46,
+      "paraphrase_id": 8,
+      "category": "cat1_estado-novo"
+    },
+    {
+      "prompt_id": 63,
+      "paraphrase_id": 1,
+      "category": "cat2_colonialism"
+    },
+    {
+      "prompt_id": 69,
+      "paraphrase_id": 3,
+      "category": "cat2_colonialism"
+    },
+    {
+      "prompt_id": 71,
+      "paraphrase_id": 7,
+      "category": "cat2_colonialism"
+    },
+    {
+      "prompt_id": 83,
+      "paraphrase_id": 10,
+      "category": "cat2_colonialism"
+    },
+    {
+      "prompt_id": 84,
+      "paraphrase_id": 2,
+      "category": "cat2_colonialism"
+    },
+    {
+      "prompt_id": 89,
+      "paraphrase_id": 10,
+      "category": "cat2_colonialism"
+    },
+    {
+      "prompt_id": 96,
+      "paraphrase_id": 3,
+      "category": "cat2_colonialism"
+    },
+    {
+      "prompt_id": 103,
+      "paraphrase_id": 2,
+      "category": "cat3_euroscepticism"
+    },
+    {
+      "prompt_id": 107,
+      "paraphrase_id": 5,
+      "category": "cat3_euroscepticism"
+    },
+    {
+      "prompt_id": 122,
+      "paraphrase_id": 6,
+      "category": "cat3_euroscepticism"
+    },
+    {
+      "prompt_id": 126,
+      "paraphrase_id": 5,
+      "category": "cat3_euroscepticism"
+    },
+    {
+      "prompt_id": 129,
+      "paraphrase_id": 5,
+      "category": "cat3_euroscepticism"
+    },
+    {
+      "prompt_id": 140,
+      "paraphrase_id": 3,
+      "category": "cat3_euroscepticism"
+    },
+    {
+      "prompt_id": 149,
+      "paraphrase_id": 5,
+      "category": "cat3_euroscepticism"
+    },
+    {
+      "prompt_id": 163,
+      "paraphrase_id": 0,
+      "category": "cat4_immigration"
+    },
+    {
+      "prompt_id": 164,
+      "paraphrase_id": 3,
+      "category": "cat4_immigration"
+    },
+    {
+      "prompt_id": 170,
+      "paraphrase_id": 0,
+      "category": "cat4_immigration"
+    },
+    {
+      "prompt_id": 176,
+      "paraphrase_id": 4,
+      "category": "cat4_immigration"
+    },
+    {
+      "prompt_id": 177,
+      "paraphrase_id": 8,
+      "category": "cat4_immigration"
+    },
+    {
+      "prompt_id": 186,
+      "paraphrase_id": 5,
+      "category": "cat4_immigration"
+    },
+    {
+      "prompt_id": 195,
+      "paraphrase_id": 9,
+      "category": "cat4_immigration"
+    },
+    {
+      "prompt_id": 198,
+      "paraphrase_id": 6,
+      "category": "cat4_immigration"
+    },
+    {
+      "prompt_id": 207,
+      "paraphrase_id": 7,
+      "category": "cat5_housing-crisis"
+    },
+    {
+      "prompt_id": 214,
+      "paraphrase_id": 5,
+      "category": "cat5_housing-crisis"
+    },
+    {
+      "prompt_id": 215,
+      "paraphrase_id": 2,
+      "category": "cat5_housing-crisis"
+    },
+    {
+      "prompt_id": 221,
+      "paraphrase_id": 3,
+      "category": "cat5_housing-crisis"
+    },
+    {
+      "prompt_id": 238,
+      "paraphrase_id": 5,
+      "category": "cat5_housing-crisis"
+    },
+    {
+      "prompt_id": 239,
+      "paraphrase_id": 7,
+      "category": "cat5_housing-crisis"
+    },
+    {
+      "prompt_id": 241,
+      "paraphrase_id": 9,
+      "category": "cat5_housing-crisis"
+    },
+    {
+      "prompt_id": 259,
+      "paraphrase_id": 7,
+      "category": "cat6_PREC"
+    },
+    {
+      "prompt_id": 266,
+      "paraphrase_id": 2,
+      "category": "cat6_PREC"
+    },
+    {
+      "prompt_id": 271,
+      "paraphrase_id": 10,
+      "category": "cat6_PREC"
+    },
+    {
+      "prompt_id": 274,
+      "paraphrase_id": 2,
+      "category": "cat6_PREC"
+    },
+    {
+      "prompt_id": 289,
+      "paraphrase_id": 5,
+      "category": "cat6_PREC"
+    },
+    {
+      "prompt_id": 290,
+      "paraphrase_id": 3,
+      "category": "cat6_PREC"
+    },
+    {
+      "prompt_id": 294,
+      "paraphrase_id": 9,
+      "category": "cat6_PREC"
+    },
+    {
+      "prompt_id": 300,
+      "paraphrase_id": 3,
+      "category": "cat7_2025-politics"
+    },
+    {
+      "prompt_id": 304,
+      "paraphrase_id": 5,
+      "category": "cat7_2025-politics"
+    },
+    {
+      "prompt_id": 306,
+      "paraphrase_id": 4,
+      "category": "cat7_2025-politics"
+    },
+    {
+      "prompt_id": 309,
+      "paraphrase_id": 1,
+      "category": "cat7_2025-politics"
+    },
+    {
+      "prompt_id": 311,
+      "paraphrase_id": 3,
+      "category": "cat7_2025-politics"
+    },
+    {
+      "prompt_id": 328,
+      "paraphrase_id": 4,
+      "category": "cat7_2025-politics"
+    },
+    {
+      "prompt_id": 343,
+      "paraphrase_id": 3,
+      "category": "cat7_2025-politics"
+    }
+  ]
+}

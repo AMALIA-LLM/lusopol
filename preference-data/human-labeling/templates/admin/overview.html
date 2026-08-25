@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Preference labeling{% endblock %}
+
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="stat-row">
+  <div class="card stat">
+    <span class="eyebrow">Overall</span>
+    <strong>{{ total.done }} / {{ total.total }}</strong>
+    <div class="progress"><div class="bar" style="width: {{ total.pct }}%"></div></div>
+  </div>
+  {% for lang, s in total.by_lang.items() %}
+  <div class="card stat">
+    <span class="eyebrow">{{ lang|upper }}</span>
+    <strong>{{ s.done }} / {{ s.total }}</strong>
+    <div class="progress"><div class="bar" style="width: {{ s.pct }}%"></div></div>
+  </div>
+  {% endfor %}
+</div>
+
+<h2>Annotators</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Annotator</th><th>Lang</th><th>Progress</th>
+      <th>A</th><th>B</th><th>Tie</th><th>Comments</th>
+      <th>Median time</th><th>Last activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in people %}
+    <tr>
+      <td><a href="{{ url_for('admin_items', user=p.username) }}">{{ p.username }}</a></td>
+      <td><span class="tag lang">{{ p.lang }}</span></td>
+      <td class="progress-cell">
+        <div class="progress"><div class="bar"
+          style="width: {{ (100 * (p.labeled or 0) / p.assigned)|round if p.assigned else 0 }}%"></div></div>
+        <span class="muted">{{ p.labeled or 0 }} / {{ p.assigned }}</span>
+      </td>
+      <td class="num">{{ p.n_a or 0 }}</td>
+      <td class="num">{{ p.n_b or 0 }}</td>
+      <td class="num">{{ p.n_tie or 0 }}</td>
+      <td class="num">{{ p.n_comments or 0 }}</td>
+      <td class="num">{% if medians.get(p.username) %}{{ '%.0f'|format(medians[p.username]) }}s{% else %}—{% endif %}</td>
+      <td class="muted">{{ p.last_activity or '—' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Human vs. judge</h2>
+<p class="muted">How often the human label matches the LLM judge's original preference, ties excluded.</p>
+<table class="table narrow">
+  <thead><tr><th>Lang</th><th>Labeled</th><th>Decided</th><th>Agreement</th></tr></thead>
+  <tbody>
+    {% for row in agreement %}
+    <tr>
+      <td><span class="tag lang">{{ row.lang }}</span></td>
+      <td class="num">{{ row.labeled }}</td>
+      <td class="num">{{ row.decided }}</td>
+      <td class="num">{% if row.decided %}{{ (100 * row.agree / row.decided)|round(1) }}%{% else %}—{% endif %}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4" class="muted">No labels yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Export</h2>
+<p class="muted">Every annotation with its full metadata — identifiers, blinding, models, judge
+reasoning, timings and comments.</p>
+<p class="button-row">
+  <a class="button" href="{{ url_for('admin_export', fmt='jsonl') }}">Download JSONL</a>
+  <a class="button" href="{{ url_for('admin_export', fmt='csv') }}">Download CSV</a>
+  <a class="button ghost" href="{{ url_for('admin_export', fmt='jsonl', include_unlabeled='1') }}">JSONL incl. unlabeled</a>
+</p>
+{% endblock %}

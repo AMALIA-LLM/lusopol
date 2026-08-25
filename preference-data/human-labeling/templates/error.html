@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ code }} — Preference labeling{% endblock %}
+{% block main_class %}wrap centered{% endblock %}
+
+{% block content %}
+<div class="card done-card">
+  <h1>{{ code }}</h1>
+  <p class="muted">{{ message }}</p>
+  <p><a class="primary button" href="{{ url_for('index') }}">Back to work</a></p>
+</div>
+{% endblock %}

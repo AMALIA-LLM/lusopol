@@ -1,0 +1,6 @@
+raw-files/
+
+# The two full preference files are ~54 MB together and are kept out of git.
+# The sampled annotation rounds under human-labeling/rounds/ are tracked instead.
+preferences_en.jsonl
+preferences_pt.jsonl

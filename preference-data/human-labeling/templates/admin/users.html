@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Users — Preference labeling{% endblock %}
+
+{% block content %}
+<h1>Users</h1>
+
+{% if new_password %}
+<div class="card highlight">
+  <p>New password for <strong>{{ new_password.username }}</strong> — copy it now, it is not shown again:</p>
+  <p class="password">{{ new_password.password }}</p>
+</div>
+{% endif %}
+
+<table class="table">
+  <thead><tr><th>Username</th><th>Role</th><th>Lang</th><th>Name</th><th>Created</th><th></th></tr></thead>
+  <tbody>
+    {% for u in users %}
+    <tr>
+      <td><strong>{{ u.username }}</strong></td>
+      <td>{{ u.role }}</td>
+      <td>{% if u.lang %}<span class="tag lang">{{ u.lang }}</span>{% endif %}</td>
+      <td class="muted">{{ u.display_name }}</td>
+      <td class="muted">{{ u.created_at }}</td>
+      <td>
+        <form method="post" action="{{ url_for('admin_rotate', username=u.username) }}">
+          <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+          <button class="ghost" onclick="return confirm('Issue a new password for {{ u.username }}?')">
+            New password
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

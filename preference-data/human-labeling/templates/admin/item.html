@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Item {{ item.id }} — Preference labeling{% endblock %}
+{% block main_class %}annotate-main{% endblock %}
+
+{% block content %}
+<div class="admin-head">
+  <h1>Item {{ item.id }}</h1>
+  <p class="muted">
+    <span class="tag lang">{{ item.lang }}</span>
+    {% if item.category %}<span class="tag">{{ item.category }}</span>{% endif %}
+    prompt_id {{ item.prompt_id }} · paraphrase_id {{ item.paraphrase_id }} ·
+    assigned to <strong>{{ item.username or 'nobody' }}</strong>
+    {% if item.position %}(#{{ item.position }} in their queue){% endif %}
+  </p>
+</div>
+
+<section class="card prompt-card">
+  <details open>
+    <summary><span class="eyebrow">Prompt</span></summary>
+    <div class="markdown prompt-body">{{ prompt_html }}</div>
+  </details>
+</section>
+
+<div class="pair">
+  {% for side, html in [('A', response_a_html), ('B', response_b_html)] %}
+  <div class="answer-card static {% if item.choice == side %}chosen-by-human{% endif %}">
+    <header>
+      <span class="side">Answer {{ side }}</span>
+      <span class="pick muted">
+        {{ 'judge-preferred' if (side == 'A') == (item.a_is_chosen == 1) else 'judge-rejected' }} ·
+        {{ item.chosen_model if (side == 'A') == (item.a_is_chosen == 1) else item.rejected_model }}
+      </span>
+    </header>
+    <div class="answer markdown">{{ html }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<section class="card">
+  <h2>Judge reasoning</h2>
+  <div class="markdown muted">{{ judge_html or 'None recorded.' }}</div>
+</section>
+
+<section class="card">
+  <h2>Label</h2>
+  <p class="muted">
+    {% if item.choice %}
+      Currently <span class="pill {{ item.choice }}">{{ item.choice }}</span>
+      by {{ item.username }} on {{ item.updated_at }}
+      {% if item.time_on_item_ms %}· {{ (item.time_on_item_ms / 1000)|round(1) }}s on item{% endif %}
+      {% if item.edited_by_admin %}· <span class="pill edited">edited by admin</span>{% endif %}
+    {% else %}Not labeled yet.{% endif %}
+  </p>
+  <form method="post" class="stack">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <div class="radio-row">
+      {% for c in ['A', 'B', 'tie'] %}
+      <label class="radio-pill">
+        <input type="radio" name="choice" value="{{ c }}" {% if item.choice == c %}checked{% endif %}>
+        <span>{{ c }}</span>
+      </label>
+      {% endfor %}
+    </div>
+    <textarea name="comment" rows="2" maxlength="4000"
+              placeholder="Comment">{{ item.comment or '' }}</textarea>
+    <div class="button-row">
+      <button class="primary" name="action" value="save_label">Save label</button>
+      <button class="ghost danger" name="action" value="clear_label"
+              onclick="return confirm('Clear the label for this item?')">Clear label</button>
+    </div>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Reassign</h2>
+  <p class="muted">Only unlabeled items can be moved; clear the label first if you need to.</p>
+  <form method="post" class="button-row">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <select name="username">
+      {% for p in peers %}
+      <option value="{{ p.username }}" {% if p.username == item.username %}selected{% endif %}>{{ p.username }}</option>
+      {% endfor %}
+    </select>
+    <button class="ghost" name="action" value="reassign">Reassign</button>
+  </form>
+</section>
+
+{% if events %}
+<section class="card">
+  <h2>History</h2>
+  <table class="table narrow">
+    <thead><tr><th>When</th><th>Who</th><th>Action</th><th>Detail</th></tr></thead>
+    <tbody>
+      {% for e in events %}
+      <tr><td class="muted">{{ e.ts }}</td><td>{{ e.actor }}</td><td>{{ e.action }}</td>
+          <td class="muted">{{ e.payload or '' }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}

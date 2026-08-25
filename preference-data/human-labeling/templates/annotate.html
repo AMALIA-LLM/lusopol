@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Item {{ position }} of {{ stats.total }} — Preference labeling{% endblock %}
+{% block main_class %}annotate-main{% endblock %}
+
+{% block topbar %}
+<div class="progress-wrap">
+  <div class="progress"><div class="bar" style="width: {{ stats.pct }}%"></div></div>
+  <span class="progress-label">{{ stats.done }} / {{ stats.total }} labeled</span>
+</div>
+{% endblock %}
+
+{% block content %}
+<form method="post" id="annotate-form" data-position="{{ position }}">
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <input type="hidden" name="elapsed_ms" id="elapsed_ms" value="">
+
+  <section class="card prompt-card">
+    <details open>
+      <summary>
+        <span class="eyebrow">Prompt · item {{ position }} of {{ stats.total }}</span>
+        {% if item.category %}<span class="tag">{{ item.category }}</span>{% endif %}
+        <span class="tag lang">{{ item.lang }}</span>
+      </summary>
+      <div class="markdown prompt-body">{{ prompt_html }}</div>
+    </details>
+  </section>
+
+  <div class="pane-tools">
+    <span class="hint">Which answer is better? Click a card to choose · <kbd>1</kbd> <kbd>2</kbd> <kbd>t</kbd> · <kbd>Enter</kbd> to continue</span>
+    <span class="spacer"></span>
+    <label class="switch"><input type="checkbox" id="sync-scroll"> Sync scrolling</label>
+    <button type="button" class="ghost" id="toggle-height" data-tall="false">Taller panes</button>
+  </div>
+
+  <div class="pair" id="pair">
+    {% for side in ['A', 'B'] %}
+    <label class="answer-card" data-choice="{{ side }}">
+      <input type="radio" name="choice" value="{{ side }}"
+             {% if item.choice == side %}checked{% endif %}>
+      <header>
+        <span class="side">Answer {{ side }}</span>
+        <span class="pick">
+          <span class="unchosen">Select <kbd>{{ loop.index }}</kbd></span>
+          <span class="chosen">✓ Selected</span>
+        </span>
+      </header>
+      <div class="answer markdown">
+        {{ response_a_html if side == 'A' else response_b_html }}
+      </div>
+    </label>
+    {% endfor %}
+  </div>
+
+  <label class="tie-option" data-choice="tie">
+    <input type="radio" name="choice" value="tie" {% if item.choice == 'tie' %}checked{% endif %}>
+    <span>Tie — both answers are equally good (or equally bad)</span>
+    <kbd>t</kbd>
+  </label>
+
+  <details class="card comment-card" {% if item.comment %}open{% endif %}>
+    <summary>Add a comment <span class="muted">(optional)</span></summary>
+    <textarea name="comment" rows="3" maxlength="4000"
+              placeholder="Anything worth noting about this pair…">{{ item.comment or '' }}</textarea>
+  </details>
+
+  <footer class="actionbar">
+    <button type="submit" name="action" value="prev" class="ghost"
+            {% if not has_prev %}disabled{% endif %}>← Previous</button>
+    <span class="status" id="status">
+      {% if item.choice %}<span class="saved">Already labeled — you can change it</span>{% endif %}
+    </span>
+    <button type="submit" name="action" value="next" class="primary" id="next-btn" disabled>
+      {% if has_next %}Next →{% else %}Finish →{% endif %}
+    </button>
+  </footer>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}

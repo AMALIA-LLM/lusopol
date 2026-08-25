@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Preference labeling{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='13' font-size='13'>⚖️</text></svg>">
+</head>
+<body>
+{% if user %}
+<header class="topbar">
+  <a class="brand" href="{{ url_for('index') }}">⚖️ <span>Preference labeling</span></a>
+  {% block topbar %}{% endblock %}
+  <nav class="topbar-right">
+    {% if user.role == 'admin' %}
+      <a href="{{ url_for('admin_overview') }}">Dashboard</a>
+      <a href="{{ url_for('admin_items') }}">Items</a>
+      <a href="{{ url_for('admin_users') }}">Users</a>
+    {% else %}
+      <a href="{{ url_for('overview') }}">My queue</a>
+    {% endif %}
+    <span class="chip">{{ user.username }}</span>
+    <form method="post" action="{{ url_for('logout') }}">
+      <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+      <button class="link" type="submit">Log out</button>
+    </form>
+  </nav>
+</header>
+{% endif %}
+
+<main class="{% block main_class %}wrap{% endblock %}">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flashes">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

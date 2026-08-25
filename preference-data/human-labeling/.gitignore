@@ -1,0 +1,9 @@
+annotations.db
+annotations.db-wal
+annotations.db-shm
+credentials.txt
+secret_key.txt
+exports/
+__pycache__/
+.venv/
+*.db

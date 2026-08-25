@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}My queue — Preference labeling{% endblock %}
+
+{% block content %}
+<h1>My queue</h1>
+<p class="muted">{{ stats.done }} of {{ stats.total }} labeled ({{ stats.pct }}%). Click any row to
+revisit or change an answer.</p>
+<div class="progress wide"><div class="bar" style="width: {{ stats.pct }}%"></div></div>
+
+<table class="table">
+  <thead>
+    <tr><th>#</th><th>Category</th><th>Prompt</th><th>Label</th><th>Comment</th></tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr onclick="location.href='{{ url_for('annotate', position=row.position) }}'">
+      <td class="num">{{ row.position }}</td>
+      <td>{% if row.category %}<span class="tag">{{ row.category }}</span>{% endif %}</td>
+      <td class="truncate">{{ row.prompt }}</td>
+      <td>
+        {% if row.choice %}<span class="pill {{ row.choice }}">{{ row.choice }}</span>
+        {% else %}<span class="pill pending">pending</span>{% endif %}
+      </td>
+      <td class="truncate muted">{{ row.comment or '' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

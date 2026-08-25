@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Items — Preference labeling{% endblock %}
+
+{% block content %}
+<h1>Items</h1>
+
+<form class="filters" method="get">
+  <select name="lang">
+    <option value="">All languages</option>
+    {% for lang in ['en', 'pt'] %}
+    <option value="{{ lang }}" {% if args.get('lang') == lang %}selected{% endif %}>{{ lang|upper }}</option>
+    {% endfor %}
+  </select>
+  <select name="user">
+    <option value="">All annotators</option>
+    {% for p in people %}
+    <option value="{{ p.username }}" {% if args.get('user') == p.username %}selected{% endif %}>{{ p.username }}</option>
+    {% endfor %}
+  </select>
+  <select name="status">
+    <option value="">Any status</option>
+    <option value="labeled" {% if args.get('status') == 'labeled' %}selected{% endif %}>Labeled</option>
+    <option value="pending" {% if args.get('status') == 'pending' %}selected{% endif %}>Pending</option>
+  </select>
+  <select name="choice">
+    <option value="">Any label</option>
+    {% for c in ['A', 'B', 'tie'] %}
+    <option value="{{ c }}" {% if args.get('choice') == c %}selected{% endif %}>{{ c }}</option>
+    {% endfor %}
+  </select>
+  <select name="category">
+    <option value="">All categories</option>
+    {% for c in categories %}
+    <option value="{{ c }}" {% if args.get('category') == c %}selected{% endif %}>{{ c }}</option>
+    {% endfor %}
+  </select>
+  <button class="primary" type="submit">Filter</button>
+  <a class="button ghost" href="{{ url_for('admin_items') }}">Reset</a>
+</form>
+
+<p class="muted">{{ rows|length }} item(s){% if rows|length == 1000 %} — showing the first 1000{% endif %}.</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th><th>Lang</th><th>Prompt</th><th>Category</th>
+      <th>Annotator</th><th>#</th><th>Label</th><th>Judge</th><th>Updated</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr onclick="location.href='{{ url_for('admin_item', item_id=row.id) }}'">
+      <td class="num">{{ row.id }}</td>
+      <td><span class="tag lang">{{ row.lang }}</span></td>
+      <td class="truncate">{{ row.prompt }}</td>
+      <td class="muted">{{ row.category or '' }}</td>
+      <td>{{ row.username or '—' }}</td>
+      <td class="num">{{ row.position or '' }}</td>
+      <td>
+        {% if row.choice %}
+          <span class="pill {{ row.choice }}">{{ row.choice }}</span>
+          {% if row.edited_by_admin %}<span class="pill edited">edited</span>{% endif %}
+        {% else %}<span class="pill pending">pending</span>{% endif %}
+      </td>
+      <td class="muted">{{ 'A' if row.a_is_chosen else 'B' }}</td>
+      <td class="muted">{{ row.updated_at or '' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

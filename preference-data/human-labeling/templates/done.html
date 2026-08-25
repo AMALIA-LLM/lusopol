@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}All done — Preference labeling{% endblock %}
+{% block main_class %}wrap centered{% endblock %}
+
+{% block content %}
+<div class="card done-card">
+  <h1>{% if stats.done == stats.total %}🎉 All done{% else %}Nothing left in the queue{% endif %}</h1>
+  <p class="muted">You labeled {{ stats.done }} of {{ stats.total }} items.</p>
+  <ul class="counts">
+    <li><span class="pill A">A</span> {{ counts.get('A', 0) }}</li>
+    <li><span class="pill B">B</span> {{ counts.get('B', 0) }}</li>
+    <li><span class="pill tie">tie</span> {{ counts.get('tie', 0) }}</li>
+  </ul>
+  <p><a class="primary button" href="{{ url_for('overview') }}">Review my answers</a></p>
+</div>
+{% endblock %}
