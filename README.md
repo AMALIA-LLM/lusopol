@@ -1,6 +1,7 @@
-# lusopol
+![license](https://img.shields.io/badge/license-Apache%202-green?style=flat)
+[![oaoer](https://img.shields.io/badge/paper-red?style=flat)](https://github.com/AMALIA-LLM/lusopol/blob/main/paper.pdf)
 
-Research code and data on political preference behaviour of LLMs in Portuguese and English.
+## Getting Started
 
 The prompt set covers seven topics in Portuguese politics and history — the Estado Novo,
 colonialism, euroscepticism, immigration, the housing crisis, the PREC, and 2025 politics — with
