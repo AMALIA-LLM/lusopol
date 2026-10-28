@@ -42,7 +42,7 @@
       <td class="num">{{ p.n_b or 0 }}</td>
       <td class="num">{{ p.n_tie or 0 }}</td>
       <td class="num">{{ p.n_comments or 0 }}</td>
-      <td class="num">{% if medians.get(p.username) %}{{ '%.0f'|format(medians[p.username]) }}s{% else %}—{% endif %}</td>
+      <td class="num">{% if medians.get(p.username) is not none %}{{ '%.0f'|format(medians[p.username]) }}s{% else %}—{% endif %}</td>
       <td class="muted">{{ p.last_activity or '—' }}</td>
     </tr>
     {% endfor %}
