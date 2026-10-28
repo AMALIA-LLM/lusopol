@@ -12,6 +12,7 @@ import time
 from collections import defaultdict
 from functools import wraps
 from pathlib import Path
+from statistics import median
 
 from flask import (Flask, Response, abort, flash, g, redirect, render_template,
                    request, session, url_for)
@@ -290,8 +291,7 @@ def admin_overview():
         times[row["username"]].append(row["time_on_item_ms"])
     medians = {}
     for username, values in times.items():
-        values.sort()
-        medians[username] = values[len(values) // 2] / 1000.0
+        medians[username] = median(values) / 1000.0
 
     agreement = conn.execute(
         """
